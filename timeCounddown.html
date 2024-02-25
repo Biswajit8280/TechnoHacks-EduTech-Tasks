@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .timer {
+            text-align: center;
+        }
+        
+        .display {
+            font-size: 3em;
+        }
+        
+        .controls {
+            margin-top: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            margin: 0 5px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="timer">
+        <div class="display">
+            <span id="minutes">00</span>:<span id="seconds">00</span>
+        </div>
+        <div class="controls">
+            <button onclick="startTimer()">Start</button>
+            <button onclick="stopTimer()">Stop</button>
+            <button onclick="resetTimer()">Reset</button>
+        </div>
+    </div>
+    <script>
+        let timer;
+let timeLeft = 0;
+let timerRunning = false;
+
+function startTimer() {
+    if (!timerRunning) {
+        timerRunning = true;
+        timer = setInterval(updateTimer, 1000);
+    }
+}
+
+function stopTimer() {
+    clearInterval(timer);
+    timerRunning = false;
+}
+
+function resetTimer() {
+    clearInterval(timer);
+    timerRunning = false;
+    timeLeft = 0;
+    updateDisplay();
+}
+
+function updateTimer() {
+    if (timeLeft > 0) {
+        timeLeft--;
+        updateDisplay();
+    } else {
+        stopTimer();
+    }
+}
+
+function updateDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+
+    document.getElementById('minutes').innerText = padZero(minutes);
+    document.getElementById('seconds').innerText = padZero(seconds);
+}
+
+function padZero(num) {
+    return (num < 10) ? '0' + num : num;
+}
+
+window.onload = function() {
+    timeLeft = 300; // Initial time in seconds (5 minutes)
+    updateDisplay();
+};
+
+    </script>
+</body>
+</html>
